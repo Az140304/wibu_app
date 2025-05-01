@@ -21,24 +21,35 @@ class _AnimeDetailCharacterState extends State<AnimeDetailCharacter> {
   }
 
   Future<void> _fetchDetailData() async {
-    final data = await BaseNetwork.getDetailData(widget.endpoint, widget.id);
-    setState(() {
-      _detailData = data;
+    try {
+      final data = await BaseNetwork.getDetailData(widget.endpoint, widget.id);
+      setState(() {
+        _detailData = data;
+        _isLoading = false;
+      });
+    } catch (e) {
+      errorMessage = e.toString();
       _isLoading = false;
-    });
+    }
+
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Detail Character")),
-      body: _isLoading ? Center(child: CircularProgressIndicator()) : errorMessage != null ? Center(child: Text("Error Message")) : _detailData != null ? Column(
-        children: [
-          Image.network(_detailData!['images'][0] ?? 'https://placehold.co/600x400'),
-            Text("Name : ${_detailData!['name']}"),
-            Text("Kekkei Genkei : ${_detailData!['personal']['kekkeiGenkai'] ?? 'Empty'}"),
-            Text("Titles : ${_detailData!['personal']['titles']}")
-        ],
-      ) : Text("No Data Available")
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : errorMessage != null
+          ? Center(child: Text("Error Message"))
+          : _detailData != null
+          ? Column(
+            children: [
+              Image.network(_detailData!['images'][0] ?? 'https://placehold.co/600x400'),
+              Text("Name : ${_detailData!['name']}"),
+              Text("Kekkei Genkei : ${_detailData!['personal']['kekkeiGenkai'] ?? 'Empty'}"),
+              Text("Titles : ${_detailData!['personal']['titles']}")
+            ],
+          ) : Text("No Data Available")
     );
   }
 }
