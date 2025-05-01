@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wibu_app/controller/anime_presenter.dart';
 import 'package:wibu_app/model/anime_model.dart';
+import 'package:wibu_app/view/detail_screen.dart';
 
 class AnimeListScreen extends StatefulWidget {
   const AnimeListScreen({super.key});
@@ -23,7 +24,7 @@ class _AnimeListScreenState extends State<AnimeListScreen> implements AnimeView 
     _presenter.loadAnimeData(_currentEndpoint);
   }
 
-  void fetchData(String endpoint){
+  void _fetchData(String endpoint){
     _currentEndpoint = endpoint;
     _presenter.loadAnimeData(_currentEndpoint);
   }
@@ -37,9 +38,9 @@ class _AnimeListScreenState extends State<AnimeListScreen> implements AnimeView 
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(onPressed: () {}, child: Text("Akatsuki")),
+              ElevatedButton(onPressed: () => _fetchData("akatsuki"), child: Text("Akatsuki")),
               SizedBox(width: 10,),
-              ElevatedButton(onPressed: () {}, child: Text("Kara")),
+              ElevatedButton(onPressed: () => _fetchData("kara") , child: Text("Kara")),
               
             ],
           ),
@@ -55,6 +56,9 @@ class _AnimeListScreenState extends State<AnimeListScreen> implements AnimeView 
                   leading: anime.imageUrl.isNotEmpty ? Image.network(anime.imageUrl) : Image.network('https://placehold.co/600x400'),
                   title: Text(anime.name),
                   subtitle: Text("Family ${anime.familyCreator}"),
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AnimeDetailCharacter(id: anime.id, endpoint: _currentEndpoint)));
+                  },
                 );
               })
           )

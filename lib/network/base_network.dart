@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class BaseNetwork {
-  static const String baseUrl = "https://dattebayo-api.onrender.com";
+  static const String baseUrl = "https://dattebayo-api.onrender.com/";
 
   static Future<List<dynamic>> getData(String endpoint) async{
     final response = await http.get(Uri.parse(baseUrl + endpoint));
