@@ -41,27 +41,70 @@ class _AnimeListScreenState extends State<AnimeListScreen> implements AnimeView 
               ElevatedButton(onPressed: () => _fetchData("akatsuki"), child: Text("Akatsuki")),
               SizedBox(width: 10,),
               ElevatedButton(onPressed: () => _fetchData("kara") , child: Text("Kara")),
-              
+              SizedBox(width: 10,),
+              ElevatedButton(onPressed: () => _fetchData("characters") , child: Text("Characters")),
             ],
           ),
-          Expanded(child: _isLoading ?
-          Center(child: CircularProgressIndicator())
-              : _errorMessage != null
-              ? Center(child: Text("Error Message"))
-              : ListView.builder(
+          SizedBox(height: 10),
+          Expanded(
+            child: _isLoading
+                ? Center(child: CircularProgressIndicator())
+                : _errorMessage != null
+                ? Center(child: Text("Error Message"))
+                : GridView.builder(
+              padding: const EdgeInsets.all(10),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // Number of columns
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 0.75, // Adjust for image + text
+              ),
               itemCount: _animeList.length,
-              itemBuilder: (context,index){
+              itemBuilder: (context, index) {
                 final anime = _animeList[index];
-                return ListTile(
-                  leading: anime.imageUrl.isNotEmpty ? Image.network(anime.imageUrl) : Image.network('https://placehold.co/600x400'),
-                  title: Text(anime.name),
-                  subtitle: Text("Family ${anime.familyCreator}"),
+                return GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AnimeDetailCharacter(id: anime.id, endpoint: _currentEndpoint)));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            AnimeDetailCharacter(id: anime.id, endpoint: _currentEndpoint),
+                      ),
+                    );
                   },
+                  child: Card(
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                            child: anime.imageUrl.isNotEmpty
+                                ? Image.network(anime.imageUrl, fit: BoxFit.cover)
+                                : Image.network('https://placehold.co/600x400', fit: BoxFit.cover),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(anime.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                              SizedBox(height: 4),
+                              Text("${anime.clan}", style: TextStyle(fontSize: 12)),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
-              })
+              },
+            ),
           )
+
         ],
       ),
     );

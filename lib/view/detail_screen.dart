@@ -11,6 +11,7 @@ class AnimeDetailCharacter extends StatefulWidget {
 }
 
 class _AnimeDetailCharacterState extends State<AnimeDetailCharacter> {
+  bool _customTileExpanded = false;
   bool _isLoading = true;
   Map<String, dynamic>? _detailData;
   String? errorMessage;
@@ -43,13 +44,25 @@ class _AnimeDetailCharacterState extends State<AnimeDetailCharacter> {
           ? Center(child: Text("Error Message"))
           : _detailData != null
           ? Column(
+        children: <Widget>[
+          Image.network(_detailData!['images'][0] ?? 'https://placehold.co/600x400'),
+          Text(_detailData!['name'], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),),
+          const ExpansionTile(
+            title: Text('ExpansionTile 1'),
+            children: <Widget>[ListTile(title: Text('This is tile number 1'))],
+          ),
+
+        ],
+      )
+
+      /*Column(
             children: [
               Image.network(_detailData!['images'][0] ?? 'https://placehold.co/600x400'),
               Text("Name : ${_detailData!['name']}"),
               Text("Kekkei Genkei : ${_detailData!['personal']['kekkeiGenkai'] ?? 'Empty'}"),
               Text("Titles : ${_detailData!['personal']['titles']}")
             ],
-          ) : Text("No Data Available")
+          ) */: Text("No Data Available")
     );
   }
 }

@@ -3,12 +3,14 @@ class Anime {
   final String name;
   final String imageUrl;
   final String familyCreator;
+  final String clan;
 
   Anime({
     required this.id,
     required this.name,
     required this.imageUrl,
     required this.familyCreator,
+    required this.clan
   });
 
   factory Anime.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,9 @@ class Anime {
       familyCreator: (json['family'] != null)
           ? (json['family']['creator'] ?? json['family']['brother'] ?? "Family Creator is Null")
           : "No Family",
+      clan: (json['personal'] != null && json['personal']['clan'] != null)
+          ? "${json['personal']['clan']} Clan"
+          : "No Clan",
     );
   }
 }
