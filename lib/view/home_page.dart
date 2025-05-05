@@ -81,9 +81,13 @@ class _AnimeListScreenState extends State<AnimeListScreen> implements AnimeView 
                         Expanded(
                           child: ClipRRect(
                             borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                            child: anime.imageUrl.isNotEmpty
-                                ? Image.network(anime.imageUrl, fit: BoxFit.cover)
-                                : Image.network('https://placehold.co/600x400', fit: BoxFit.cover),
+                            child: Image.network(
+                              anime.imageUrl,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Image.network('https://placehold.co/600x400', fit: BoxFit.cover);
+                              },
+                            ),
                           ),
                         ),
                         Padding(
