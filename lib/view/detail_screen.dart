@@ -142,15 +142,6 @@ class _AnimeDetailCharacterState extends State<AnimeDetailCharacter> {
               ],
             )
           )
-
-              /*Column(${_detailData!["debut"]}
-            children: [
-              Image.network(_detailData!['images'][0] ?? 'https://placehold.co/600x400'),
-              Text("Name : ${_detailData!['name']}"),
-              Text("Kekkei Genkei : ${_detailData!['personal']['kekkeiGenkai'] ?? 'Empty'}"),
-              Text("Titles : ${_detailData!['personal']['titles']}")
-            ],
-          ) */
               : Text("No Data Available"),
     );
   }
