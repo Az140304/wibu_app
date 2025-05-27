@@ -40,6 +40,7 @@ class _AnimeDetailCharacterState extends State<AnimeDetailCharacter> {
   @override
   Widget build(BuildContext context) {
 
+    Map<String, dynamic> debut = _detailData!["debut"];
 
     return Scaffold(
       appBar: AppBar(title: Text("Detail Character")),
@@ -102,9 +103,13 @@ class _AnimeDetailCharacterState extends State<AnimeDetailCharacter> {
                     ),
                   ),
                   children: [
-                    ListTile(
-                      title: Text(
-                        "${_detailData!["debut"]}",
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: debut.entries.map((entry) {
+                          return Text('${entry.key}: ${entry.value}');
+                        }).toList(),
                       ),
                     ),
                   ],
